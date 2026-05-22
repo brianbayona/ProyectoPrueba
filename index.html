@@ -3,257 +3,401 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BurguerHouse - Comidas Rápidas</title>
+  <title>Comidas Rápidas Donde Rey</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- ============ HEADER ============ -->
+  <!-- ===== HEADER ===== -->
   <header class="header">
     <div class="container">
-      <a href="#" class="logo">Burguer<span>House</span></a>
+      <a href="#" class="logo">
+        <span class="logo-icon">&#129409;</span>
+        Donde <span>Rey</span>
+      </a>
       <button class="menu-toggle" id="menuToggle" aria-label="Menú">&#9776;</button>
       <nav class="nav" id="nav">
         <a href="#menu">Menú</a>
         <a href="#about">Nosotros</a>
         <a href="#contact">Contacto</a>
       </nav>
+      <button class="cart-btn" id="cartBtn" aria-label="Carrito">
+        &#128722; <span class="cart-count" id="cartCount">0</span>
+      </button>
     </div>
   </header>
 
-  <!-- ============ HERO ============ -->
-  <section class="hero">
-    <div>
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <span class="hero-badge">&#127775; Nuevo: Perro Ranchero</span>
       <h1>El sabor que <span>enamora</span></h1>
       <p>Hamburguesas artesanales, perros calientes con actitud y mucho más. Hecho con amor, servido con velocidad.</p>
-      <a href="#menu" class="btn">Ver Menú</a>
+      <div class="hero-btns">
+        <a href="#menu" class="btn">Ver Menú</a>
+        <a href="#contact" class="btn btn-outline">Pedir Ya</a>
+      </div>
     </div>
   </section>
 
-  <!-- ============ MENÚ ============ -->
+  <!-- ===== MENÚ ===== -->
   <section class="section" id="menu">
     <div class="container">
-      <h2 class="section-title">Nuestro Menú</h2>
-      <p class="section-subtitle">Elegí tu antojo y dejate llevar</p>
+      <div class="section-header">
+        <span class="section-tag">&#127860; Nuestro Menú</span>
+        <h2 class="section-title">Elegí tu antojo</h2>
+        <p class="section-subtitle">Cada bocado es una experiencia única que querés repetir</p>
+      </div>
 
       <div class="tabs" id="tabsContainer">
-        <button class="tab active" data-category="all">Todo</button>
-        <button class="tab" data-category="hamburguesas">Hamburguesas</button>
-        <button class="tab" data-category="perros">Perros</button>
-        <button class="tab" data-category="mas">Más</button>
+        <button class="tab active" data-category="all">&#127860; Todo</button>
+        <button class="tab" data-category="hamburguesas">&#127828; Hamburguesas</button>
+        <button class="tab" data-category="perros">&#127798; Perros</button>
+        <button class="tab" data-category="mas">&#127829; Más</button>
       </div>
 
       <div class="menu-grid" id="menuGrid"></div>
     </div>
   </section>
 
-  <!-- ============ NOSOTROS ============ -->
-  <section class="section" id="about">
+  <!-- ===== NOSOTROS ===== -->
+  <section class="section about-section" id="about">
     <div class="container about-grid">
-      <img
-        src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=600&q=80"
-        alt="Cocina BurguerHouse"
-      >
-      <div>
+      <div class="about-image-wrapper">
+        <img
+          src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=600&q=80"
+          alt="Cocina Donde Rey"
+        >
+        <div class="about-experience">+2 años <small>de sabor</small></div>
+      </div>
+      <div class="about-text">
+        <span class="section-tag">&#128075; Conócenos</span>
         <h2>Hacemos comida que vale la pena</h2>
         <p>
-          En <strong>BurguerHouse</strong> cada ingrediente cuenta. Usamos carne 100 % de res, pan artesanal,
+          En <strong>Donde Rey</strong> cada ingrediente cuenta. Usamos carne 100% de res, pan artesanal,
           verduras frescas y salsas de la casa. No solo vendemos comida rápida: vendemos una experiencia.
         </p>
         <p>
-          Nacimos en 2024 con una idea simple: <em>calidad que no se negocia y sabor que vuelve</em>.
+          Nacimos con una idea simple: <em>calidad que no se negocia y sabor que vuelve</em>.
           Hoy seguimos creciendo gracias a vos.
         </p>
+        <div class="about-features">
+          <div class="feature">
+            <span class="feature-icon">&#129385;</span>
+            <span>Ingredientes frescos</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">&#9203;</span>
+            <span>Entrega rápida</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">&#128154;</span>
+            <span>Hecho con amor</span>
+          </div>
+        </div>
         <a href="#menu" class="btn">Ordená ahora</a>
       </div>
     </div>
   </section>
 
-  <!-- ============ CONTACTO / PEDIDOS ============ -->
+  <!-- ===== CONTACTO ===== -->
   <section class="section contact-section" id="contact">
     <div class="container">
-      <h2 class="section-title">Hacé tu pedido</h2>
-      <p class="section-subtitle">Te tomamos el encargo por cualquiera de estos canales</p>
+      <div class="section-header">
+        <span class="section-tag">&#128222; Contacto</span>
+        <h2 class="section-title">Hacé tu pedido</h2>
+        <p class="section-subtitle">Te tomamos el encargo por cualquiera de estos canales</p>
+      </div>
 
-      <div class="contact-info">
-        <div class="contact-item">
-          <span class="icon">&#128222;</span>
-          <strong>Teléfono</strong>
-          <span>+57 300 123 4567</span>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-icon">&#128222;</div>
+          <h3>Teléfono</h3>
+          <a href="tel:+573001234567">+57 300 123 4567</a>
         </div>
-        <div class="contact-item">
-          <span class="icon">&#128172;</span>
-          <strong>WhatsApp</strong>
-          <span>+57 300 123 4567</span>
+        <div class="contact-card whatsapp-card">
+          <div class="contact-icon">&#128172;</div>
+          <h3>WhatsApp</h3>
+          <a href="https://wa.me/573001234567" target="_blank">+57 300 123 4567</a>
+          <a href="https://wa.me/573001234567" class="btn btn-small" target="_blank">Escribir ahora</a>
         </div>
-        <div class="contact-item">
-          <span class="icon">&#128231;</span>
-          <strong>Email</strong>
-          <span>pedidos@burguerhouse.co</span>
+        <div class="contact-card">
+          <div class="contact-icon">&#128231;</div>
+          <h3>Email</h3>
+          <a href="mailto:pedidos@donderey.co">pedidos@donderey.co</a>
         </div>
-        <div class="contact-item">
-          <span class="icon">&#128205;</span>
-          <strong>Ubicación</strong>
-          <span>Cra 15 # 48-32, Bogotá</span>
+        <div class="contact-card">
+          <div class="contact-icon">&#128205;</div>
+          <h3>Ubicación</h3>
+          <p>Cra 15 # 48-32, Bucaramanga</p>
+          <a href="https://maps.google.com" target="_blank" class="btn btn-small btn-outline">Ver en mapa</a>
         </div>
       </div>
 
-      <p class="contact-wa">
-        <a href="https://wa.me/573001234567" class="btn" target="_blank">Pedir por WhatsApp</a>
-      </p>
+      <div class="schedule">
+        <h3>&#128338; Horarios</h3>
+        <p>Lun - Sáb: <strong>6:00 PM - 11:00 PM</strong></p>
+        <p>Dom: <strong>5:00 PM - 10:00 PM</strong></p>
+      </div>
     </div>
   </section>
 
-  <!-- ============ FOOTER ============ -->
+  <!-- ===== FOOTER ===== -->
   <footer class="footer">
     <div class="container">
-      &copy; 2026 BurguerHouse &mdash; Hecho con dedicaci&oacute;n para los amantes de la comida r&aacute;pida.
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="footer-logo">Donde <strong>Rey</strong></span>
+          <p>Comidas rápidas con sabor casero. Bucaramanga, Colombia.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Navegación</h4>
+          <a href="#menu">Menú</a>
+          <a href="#about">Nosotros</a>
+          <a href="#contact">Contacto</a>
+        </div>
+        <div class="footer-social">
+          <h4>Síguenos</h4>
+          <div class="social-icons">
+            <a href="#" aria-label="Instagram">&#9889;</a>
+            <a href="#" aria-label="Facebook">&#9889;</a>
+            <a href="#" aria-label="TikTok">&#9889;</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 Donde Rey &mdash; Hecho con dedicación para los amantes de la comida rápida.
+      </div>
     </div>
   </footer>
+
+  <!-- ===== CARRITO MODAL ===== -->
+  <div class="cart-modal-overlay" id="cartOverlay">
+    <div class="cart-modal" id="cartModal">
+      <div class="cart-modal-header">
+        <h2>&#128722; Tu Pedido</h2>
+        <button class="cart-close" id="cartClose">&times;</button>
+      </div>
+      <div class="cart-modal-body" id="cartBody">
+        <div class="cart-empty">
+          <span class="cart-empty-icon">&#128722;</span>
+          <p>Tu carrito está vacío</p>
+          <p class="cart-empty-sub">Agregá productos del menú para empezar</p>
+        </div>
+      </div>
+      <div class="cart-modal-footer" id="cartFooter" style="display:none">
+        <div class="cart-total">
+          <span>Total:</span>
+          <span id="cartTotal">$0</span>
+        </div>
+        <button class="btn" id="checkoutBtn">Pedir por WhatsApp</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== WHATSAPP FLOATING ===== -->
+  <a href="https://wa.me/573001234567" class="wa-float" target="_blank" aria-label="WhatsApp">
+    &#128172;
+  </a>
 
   <script>
     // ============ DATA ============
     const menu = [
-      // ---- HAMBURGUESAS ----
-      {
-        id: 1,
-        name: 'Clásica',
-        category: 'hamburguesas',
-        desc: 'Carne 150g, lechuga, tomate, cebolla, queso americano y salsa de la casa.',
-        price: '15.900',
-        img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80'
-      }, {
-        id: 2,
-        name: 'Doble Queso',
-        category: 'hamburguesas',
-        desc: 'Dos carnes 120g c/u, doble queso cheddar, cebolla caramelizada y BBQ.',
-        price: '21.500',
-        img: 'https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=400&q=80'
-      }, {
-        id: 3,
-        name: 'Criolla',
-        category: 'hamburguesas',
-        desc: 'Carne 180g, queso costeño, huevo frito, aguacate, tocineta y salsa criolla.',
-        price: '19.900',
-        img: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=400&q=80'
-      },
-      // ---- PERROS ----
-      {
-        id: 4,
-        name: 'Perro Sencillo',
-        category: 'perros',
-        desc: 'Salchicha tipo americana, pan suave, repollo, papa chip y salsas.',
-        price: '9.900',
-        img: 'https://images.unsplash.com/photo-1619740455993-9e612b1af08a?w=400&q=80'
-      }, {
-        id: 5,
-        name: 'Perro Especial',
-        category: 'perros',
-        desc: 'Salchicha ahumada, queso mozzarella, tocineta, piña, y salsas de la casa.',
-        price: '13.500',
-        img: 'https://images.unsplash.com/photo-1626050475228-255a5f1a6d7c?w=400&q=80'
-      }, {
-        id: 6,
-        name: 'Perro Ranchero',
-        category: 'perros',
-        desc: 'Doble salchicha, huevo revuelto, cebolla grille, aguacate y mayonesa de chipotle.',
-        price: '15.900',
-        img: 'https://images.unsplash.com/photo-1625014618427-fbc980b974f5?w=400&q=80'
-      },
-      // ---- M&Aacute;S ----
-      {
-        id: 7,
-        name: 'Salchipapas',
-        category: 'mas',
-        desc: 'Papas a la francesa con salchicha en rodajas, bañadas en queso y salsas.',
-        price: '11.900',
-        img: 'https://images.unsplash.com/photo-1612752240120-5f2a6c6c4f77?w=400&q=80'
-      }, {
-        id: 8,
-        name: 'Patacón Burger',
-        category: 'mas',
-        desc: 'Patacón relleno con carne desmechada, queso, aguacate y hogao.',
-        price: '16.500',
-        img: 'https://images.unsplash.com/photo-1625908890799-063a5e7ef13c?w=400&q=80'
-      }, {
-        id: 9,
-        name: 'Nuggets + Papas',
-        category: 'mas',
-        desc: '6 nuggets de pollo con papas fritas y salsa de la casa.',
-        price: '12.900',
-        img: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=400&q=80'
-      }, {
-        id: 10,
-        name: 'Gaseosa 400ml',
-        category: 'mas',
-        desc: 'Coca-Cola, Sprite o Fanta bien fría.',
-        price: '4.500',
-        img: 'https://images.unsplash.com/photo-1527960471985-5696b3d2826f?w=400&q=80'
-      }
+      { id: 1, name: 'Clásica', category: 'hamburguesas', desc: 'Carne 150g, lechuga, tomate, cebolla, queso americano y salsa de la casa.', price: 15900, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80' },
+      { id: 2, name: 'Doble Queso', category: 'hamburguesas', desc: 'Dos carnes 120g c/u, doble queso cheddar, cebolla caramelizada y BBQ.', price: 21500, img: 'https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=400&q=80' },
+      { id: 3, name: 'Criolla', category: 'hamburguesas', desc: 'Carne 180g, queso costeño, huevo frito, aguacate, tocineta y salsa criolla.', price: 19900, img: 'https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=400&q=80' },
+      { id: 4, name: 'Perro Sencillo', category: 'perros', desc: 'Salchicha tipo americana, pan suave, repollo, papa chip y salsas.', price: 9900, img: 'https://images.unsplash.com/photo-1619740455993-9e612b1af08a?w=400&q=80' },
+      { id: 5, name: 'Perro Especial', category: 'perros', desc: 'Salchicha ahumada, queso mozzarella, tocineta, piña y salsas de la casa.', price: 13500, img: 'https://images.unsplash.com/photo-1626050475228-255a5f1a6d7c?w=400&q=80' },
+      { id: 6, name: 'Perro Ranchero', category: 'perros', desc: 'Doble salchicha, huevo revuelto, cebolla grille, aguacate y mayonesa de chipotle.', price: 15900, img: 'https://images.unsplash.com/photo-1625014618427-fbc980b974f5?w=400&q=80' },
+      { id: 7, name: 'Salchipapas', category: 'mas', desc: 'Papas a la francesa con salchicha en rodajas, bañadas en queso y salsas.', price: 11900, img: 'https://images.unsplash.com/photo-1612752240120-5f2a6c6c4f77?w=400&q=80' },
+      { id: 8, name: 'Patacón Burger', category: 'mas', desc: 'Patacón relleno con carne desmechada, queso, aguacate y hogao.', price: 16500, img: 'https://images.unsplash.com/photo-1625908890799-063a5e7ef13c?w=400&q=80' },
+      { id: 9, name: 'Nuggets + Papas', category: 'mas', desc: '6 nuggets de pollo con papas fritas y salsa de la casa.', price: 12900, img: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=400&q=80' },
+      { id: 10, name: 'Gaseosa 400ml', category: 'mas', desc: 'Coca-Cola, Sprite o Fanta bien fría.', price: 4500, img: 'https://images.unsplash.com/photo-1527960471985-5696b3d2826f?w=400&q=80' }
     ];
 
-    // ============ RENDER ============
+    const formatPrice = (n) => '$' + n.toLocaleString('es-CO');
+    const cart = [];
+
+    // ============ RENDER MENU ============
     const grid = document.getElementById('menuGrid');
 
     function renderMenu(category) {
       const items = category === 'all' ? menu : menu.filter(m => m.category === category);
-
-      grid.innerHTML = items.map(item => `
-        <div class="menu-card">
-          <img src="${item.img}" alt="${item.name}" loading="lazy" />
-          <div class="menu-card-body">
-            <h3>${item.name}</h3>
-            <p class="desc">${item.desc}</p>
-            <div class="menu-card-footer">
-              <span class="price">$${item.price}</span>
-              <button class="btn-add" data-id="${item.id}">Agregar</button>
+      grid.innerHTML = items.map(item => {
+        const inCart = cart.find(c => c.id === item.id);
+        return `
+          <div class="menu-card">
+            <div class="menu-card-img">
+              <img src="${item.img}" alt="${item.name}" loading="lazy" />
+              <span class="menu-card-cat">${item.category === 'hamburguesas' ? '&#127828;' : item.category === 'perros' ? '&#127798;' : '&#127829;'} ${item.category}</span>
+            </div>
+            <div class="menu-card-body">
+              <h3>${item.name}</h3>
+              <p class="desc">${item.desc}</p>
+              <div class="menu-card-footer">
+                <span class="price">${formatPrice(item.price)}</span>
+                <button class="btn-add ${inCart ? 'in-cart' : ''}" data-id="${item.id}">
+                  ${inCart ? '&#10003; Agregado' : 'Agregar'}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     // ============ TABS ============
     const tabsContainer = document.getElementById('tabsContainer');
-
     tabsContainer.addEventListener('click', (e) => {
       const tab = e.target.closest('.tab');
       if (!tab) return;
-
       tabsContainer.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
       renderMenu(tab.dataset.category);
     });
 
-    // ============ ADD TO ORDER (demo) ============
+    // ============ CARRITO ============
+    function updateCartUI() {
+      const count = cart.reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById('cartCount').textContent = count;
+
+      const body = document.getElementById('cartBody');
+      const footer = document.getElementById('cartFooter');
+
+      if (cart.length === 0) {
+        body.innerHTML = `
+          <div class="cart-empty">
+            <span class="cart-empty-icon">&#128722;</span>
+            <p>Tu carrito está vacío</p>
+            <p class="cart-empty-sub">Agregá productos del menú para empezar</p>
+          </div>
+        `;
+        footer.style.display = 'none';
+        return;
+      }
+
+      footer.style.display = 'block';
+      let total = 0;
+      body.innerHTML = cart.map(item => {
+        const subtotal = item.price * item.qty;
+        total += subtotal;
+        return `
+          <div class="cart-item">
+            <img src="${item.img}" alt="${item.name}" />
+            <div class="cart-item-info">
+              <h4>${item.name}</h4>
+              <span class="cart-item-price">${formatPrice(item.price)}</span>
+            </div>
+            <div class="cart-item-qty">
+              <button class="qty-btn minus" data-id="${item.id}">-</button>
+              <span>${item.qty}</span>
+              <button class="qty-btn plus" data-id="${item.id}">+</button>
+            </div>
+            <span class="cart-item-subtotal">${formatPrice(subtotal)}</span>
+            <button class="cart-item-remove" data-id="${item.id}">&times;</button>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('cartTotal').textContent = formatPrice(total);
+
+      document.querySelectorAll('.qty-btn.minus').forEach(btn => {
+        btn.onclick = () => changeQty(Number(btn.dataset.id), -1);
+      });
+      document.querySelectorAll('.qty-btn.plus').forEach(btn => {
+        btn.onclick = () => changeQty(Number(btn.dataset.id), 1);
+      });
+      document.querySelectorAll('.cart-item-remove').forEach(btn => {
+        btn.onclick = () => removeItem(Number(btn.dataset.id));
+      });
+    }
+
+    function changeQty(id, delta) {
+      const item = cart.find(c => c.id === id);
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) {
+        const idx = cart.indexOf(item);
+        cart.splice(idx, 1);
+      }
+      updateCartUI();
+      renderMenu(document.querySelector('.tab.active').dataset.category);
+    }
+
+    function removeItem(id) {
+      const idx = cart.findIndex(c => c.id === id);
+      if (idx !== -1) cart.splice(idx, 1);
+      updateCartUI();
+      renderMenu(document.querySelector('.tab.active').dataset.category);
+    }
+
+    // ============ ADD TO CART ============
     grid.addEventListener('click', (e) => {
       const btn = e.target.closest('.btn-add');
       if (!btn) return;
-
       const id = Number(btn.dataset.id);
       const item = menu.find(m => m.id === id);
-      if (item) {
-        btn.textContent = '✓ Listo';
-        btn.style.background = '#2e7d32';
-        setTimeout(() => {
-          btn.textContent = 'Agregar';
-          btn.style.background = '';
-        }, 1200);
+      if (!item) return;
+
+      const existing = cart.find(c => c.id === id);
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ ...item, qty: 1 });
       }
+
+      updateCartUI();
+      renderMenu(document.querySelector('.tab.active').dataset.category);
     });
 
-    // ============ MOBILE MENU ============
-    const menuToggle = document.getElementById('menuToggle');
-    const nav = document.getElementById('nav');
+    // ============ CART MODAL ============
+    const overlay = document.getElementById('cartOverlay');
+    document.getElementById('cartBtn').onclick = () => overlay.classList.add('open');
+    document.getElementById('cartClose').onclick = () => overlay.classList.remove('open');
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) overlay.classList.remove('open');
+    });
 
-    menuToggle.addEventListener('click', () => {
-      nav.classList.toggle('open');
+    // ============ CHECKOUT ============
+    document.getElementById('checkoutBtn').onclick = () => {
+      if (cart.length === 0) return;
+      const msg = cart.map(i => `- ${i.name} x${i.qty} = ${formatPrice(i.price * i.qty)}`).join('%0A');
+      const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+      const finalMsg = `¡Hola! Quiero hacer un pedido:%0A%0A${msg}%0A%0ATotal: ${formatPrice(total)}%0A%0A¿Está disponible para entregar?`;
+      window.open(`https://wa.me/573001234567?text=${finalMsg}`, '_blank');
+    };
+
+    // ============ MOBILE MENU ============
+    document.getElementById('menuToggle').onclick = () => {
+      document.getElementById('nav').classList.toggle('open');
+    };
+
+    // ============ SCROLL ANIMATION ============
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.menu-card, .about-grid, .contact-card, .section-header').forEach(el => {
+      el.classList.add('fade-in');
+      observer.observe(el);
+    });
+
+    // ============ NAV CLOSE ON CLICK ============
+    document.querySelectorAll('.nav a').forEach(a => {
+      a.addEventListener('click', () => {
+        document.getElementById('nav').classList.remove('open');
+      });
     });
 
     // ============ INIT ============
     renderMenu('all');
+    updateCartUI();
   </script>
 </body>
 </html>
