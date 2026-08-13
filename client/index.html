@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comidas Rápidas Donde Rey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="container">
+      <a href="#" class="logo">
+        <img src="/src/assets/logo.jpg" alt="Logo Donde Rey" class="logo-img" />
+        Donde <span>Rey</span>
+      </a>
+      <a href="tel:+573001234567" class="header-phone">&#128222; +57 300 123 4567</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Menú">&#9776;</button>
+      <nav class="nav" id="nav">
+        <a href="#menu">Menú</a>
+        <a href="#about">Nosotros</a>
+        <a href="#contact">Contacto</a>
+      </nav>
+      <button class="cart-btn" id="cartBtn" aria-label="Carrito">
+        &#128722; <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="home">
+    <img src="/src/assets/logo.jpg" alt="Logo Donde Rey" class="hero-logo" />
+    <a href="#menu" class="hero-scroll" aria-label="Ver el menú">&#8595;</a>
+    <div class="hero-content">
+      <span class="hero-badge ribbon">Nuevo: Perro Ranchero</span>
+      <h1>El sabor que <span>enamora</span></h1>
+      <p>Hamburguesas artesanales, perros calientes con actitud y mucho más. Hecho con amor, servido con velocidad.</p>
+      <div class="hero-btns">
+        <a href="#menu" class="btn">Ver Menú</a>
+        <a href="#contact" class="btn btn-outline">Pedir Ya</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DOMICILIOS ===== -->
+  <section class="delivery-strip">
+    <div class="container">
+      <span class="delivery-icon">&#128666;</span>
+      <p>
+        <strong>Pedidos a domicilio</strong>
+        <span class="delivery-sep">&middot;</span>
+        <span>Tomamos tu encargo por WhatsApp y teléfono</span>
+      </p>
+      <div class="delivery-links">
+        <a href="https://wa.me/573001234567" target="_blank" class="btn btn-small">Pedir por WhatsApp</a>
+        <a href="tel:+5776588040" class="delivery-phone">&#128222; 76588040</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MENÚ ===== -->
+  <section class="section" id="menu">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">&#127860; Nuestro Menú</span>
+        <h2 class="section-title">Elegí tu antojo</h2>
+        <p class="section-subtitle">Cada bocado es una experiencia única que querés repetir</p>
+      </div>
+
+      <div class="tabs" id="tabsContainer">
+        <button class="tab active" data-category="all">&#127860; Todo</button>
+        <button class="tab" data-category="hamburguesas">&#127828; Hamburguesas</button>
+        <button class="tab" data-category="perros">&#127798; Perros</button>
+        <button class="tab" data-category="acompanamientos">&#127839; Acompañamientos</button>
+        <button class="tab" data-category="licores">&#127870; Licores</button>
+      </div>
+
+      <div class="menu-grid" id="menuGrid"></div>
+    </div>
+  </section>
+
+  <!-- ===== NOSOTROS ===== -->
+  <section class="section about-section" id="about">
+    <div class="container about-grid">
+      <div class="about-image-wrapper">
+        <img
+          src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=600&q=80"
+          alt="Cocina Donde Rey"
+        >
+        <div class="about-experience">+2 años <small>de sabor</small></div>
+      </div>
+      <div class="about-text">
+        <span class="section-tag">&#128075; Conócenos</span>
+        <h2>Hacemos comida que vale la pena</h2>
+        <p>
+          En <strong>Donde Rey</strong> cada ingrediente cuenta. Usamos carne 100% de res, pan artesanal,
+          verduras frescas y salsas de la casa. No solo vendemos comida rápida: vendemos una experiencia.
+        </p>
+        <p>
+          Nacimos con una idea simple: <em>calidad que no se negocia y sabor que vuelve</em>.
+          Hoy seguimos creciendo gracias a vos.
+        </p>
+        <div class="about-features">
+          <div class="feature">
+            <span class="feature-icon">&#129385;</span>
+            <span>Ingredientes frescos</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">&#9203;</span>
+            <span>Entrega rápida</span>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">&#128154;</span>
+            <span>Hecho con amor</span>
+          </div>
+        </div>
+        <a href="#menu" class="btn">Ordená ahora</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACTO ===== -->
+  <section class="section contact-section" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">&#128222; Contacto</span>
+        <h2 class="section-title">Hacé tu pedido</h2>
+        <p class="section-subtitle">Te tomamos el encargo por cualquiera de estos canales</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <div class="contact-icon">&#128222;</div>
+          <h3>Teléfono</h3>
+          <a href="tel:+5776588040">76588040</a>
+        </div>
+        <div class="contact-card whatsapp-card">
+          <div class="contact-icon"><img src="/products/whatsapp.png" alt="WhatsApp" class="contact-icon-img"></div>
+          <h3>WhatsApp</h3>
+          <a href="https://wa.me/573001234567" target="_blank">+57 300 123 4567</a>
+          <a href="https://wa.me/573001234567" class="btn btn-small" target="_blank">Escribir ahora</a>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">&#128231;</div>
+          <h3>Email</h3>
+          <a href="mailto:pedidos@donderey.co">pedidos@donderey.co</a>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">&#128205;</div>
+          <h3>Ubicación</h3>
+          <p>Cra. 45 #148a-2, Floridablanca, Santander</p>
+          <a href="https://www.google.com/maps/search/?api=1&query=Cra+45+%23148a-2+Floridablanca+Santander+Colombia" target="_blank" class="btn btn-small btn-outline">Ver en mapa</a>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">&#127793;</div>
+          <h3>Servicios</h3>
+          <p>Asientos al aire libre</p>
+          <p>Menú para niños</p>
+        </div>
+      </div>
+
+      <div class="schedule">
+        <h3>&#128338; Horarios</h3>
+        <p>Lun - Dom: <strong>5:00 PM - 2:00 AM</strong></p>
+      </div>
+
+      <div class="map-wrapper">
+        <iframe
+          src="https://www.google.com/maps?q=Cra.%2045%20%23148a-2%2C%20Floridablanca%2C%20Santander%2C%20Colombia&output=embed"
+          width="100%"
+          height="400"
+          style="border:0"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Mapa de Donde Rey - Cra. 45 #148a-2, Floridablanca, Santander"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="footer-logo">Donde <strong>Rey</strong></span>
+          <p>Comidas rápidas con sabor casero. Floridablanca, Santander, Colombia.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Navegación</h4>
+          <a href="#menu">Menú</a>
+          <a href="#about">Nosotros</a>
+          <a href="#contact">Contacto</a>
+        </div>
+        <div class="footer-social">
+          <h4>Síguenos</h4>
+          <div class="social-icons">
+            <a href="#" aria-label="Instagram">&#9889;</a>
+            <a href="#" aria-label="Facebook">&#9889;</a>
+            <a href="#" aria-label="TikTok">&#9889;</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-payments">
+        <div class="payments-info">
+          <span>Pedidos y pagos seguros:</span>
+          <a href="tel:+573001234567" class="footer-phone">&#128222; +57 300 123 4567</a>
+        </div>
+        <div class="payments-icons">
+          <span class="pay-badge" title="Mastercard">
+            <svg viewBox="0 0 48 30" width="42" height="26" role="img" aria-label="Mastercard">
+              <rect width="48" height="30" rx="4" fill="#ffffff"/>
+              <circle cx="19" cy="15" r="11" fill="#EB001B"/>
+              <circle cx="29" cy="15" r="11" fill="#F79E1B" opacity="0.85"/>
+            </svg>
+          </span>
+          <span class="pay-badge" title="Visa">
+            <svg viewBox="0 0 48 30" width="42" height="26" role="img" aria-label="Visa">
+              <rect width="48" height="30" rx="4" fill="#1A1F71"/>
+              <text x="24" y="21" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-style="italic" font-size="15" fill="#ffffff">VISA</text>
+            </svg>
+          </span>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; 2026 Donde Rey &mdash; Hecho con dedicación para los amantes de la comida rápida.
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== CARRITO MODAL ===== -->
+  <div class="cart-modal-overlay" id="cartOverlay">
+    <div class="cart-modal" id="cartModal">
+      <div class="cart-modal-header">
+        <h2>&#128722; Tu Pedido</h2>
+        <button class="cart-close" id="cartClose">&times;</button>
+      </div>
+      <div class="cart-modal-body" id="cartBody">
+        <div class="cart-empty">
+          <span class="cart-empty-icon">&#128722;</span>
+          <p>Tu carrito está vacío</p>
+          <p class="cart-empty-sub">Agregá productos del menú para empezar</p>
+        </div>
+      </div>
+      <div class="cart-modal-footer" id="cartFooter" style="display:none">
+        <div class="cart-total">
+          <span>Total:</span>
+          <span id="cartTotal">$0</span>
+        </div>
+        <button class="btn" id="checkoutBtn">Pedir por WhatsApp</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== WHATSAPP FLOATING ===== -->
+  <a href="https://wa.me/573001234567" class="wa-float" target="_blank" aria-label="WhatsApp">
+    <img src="/products/whatsapp.png" alt="WhatsApp" class="wa-img">
+  </a>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
