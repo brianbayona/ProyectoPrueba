@@ -2,7 +2,7 @@ import './style.css';
 import { loadMenu } from './js/data.js';
 import { subscribe } from './js/cart.js';
 import { initMenu, renderMenu, getActiveCategory } from './js/menu.js';
-import { initCartUI, updateCartUI } from './js/cart-ui.js';
+import { initCartUI, updateCartUI, openCart } from './js/cart-ui.js';
 import { initNavigation } from './js/navigation.js';
 import { initAnimations } from './js/animations.js';
 import { showToast } from './js/toast.js';
@@ -38,9 +38,12 @@ subscribe((payload) => {
   renderMenu();
   if (!payload) return;
   if (payload.action === 'add') {
-    showToast(`${payload.item.name} agregado al pedido`, 'success');
+    const toast = showToast(payload.item.name + ' agregado al pedido', 'success');
+    toast.addEventListener('click', openCart);
   } else if (payload.action === 'remove') {
-    showToast(`${payload.item.name} eliminado del pedido`, 'error');
+    showToast(payload.item.name + ' eliminado del pedido', 'error');
+  } else if (payload.action === 'clear') {
+    showToast('Tu carrito fue vaciado', 'info');
   }
 });
 

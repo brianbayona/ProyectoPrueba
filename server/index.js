@@ -18,7 +18,7 @@ app.get('/api/menu', (_req, res) => {
 app.get('/api/config', (_req, res) => {
   res.json({
     storeName: 'Comidas Rápidas Donde Rey',
-    whatsapp: '573001234567',
+    whatsapp: '573013872320',
     phone: '76588040',
     email: 'pedidos@donderey.co',
     address: 'Cra. 45 #148a-2, Floridablanca, Santander',

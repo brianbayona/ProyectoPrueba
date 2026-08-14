@@ -16,6 +16,14 @@ const COMING_SOON_HTML = `
   </div>
 `;
 
+export const CATEGORY_META = {
+  perros: { icon: '&#127789;', label: 'Perros' },
+  hamburguesas: { icon: '&#127828;', label: 'Hamburguesas' },
+  'para-picar': { icon: '&#127839;', label: 'Para Picar' },
+  'carne-aves': { icon: '&#129385;', label: 'Carne y Aves' },
+  licores: { icon: '&#127870;', label: 'Licorería' }
+};
+
 let activeCategory = 'all';
 
 export function renderMenu(category = activeCategory) {
@@ -28,19 +36,24 @@ export function renderMenu(category = activeCategory) {
     return;
   }
 
-  grid.innerHTML = items.map((item) => {
+  grid.innerHTML = items.map((item, i) => {
     const inCart = getCart().find((c) => c.id === item.id);
+    const meta = CATEGORY_META[item.category] || { icon: '&#127829;', label: item.category };
+    const photo = item.img
+      ? `<img src="${item.img}" alt="${item.name}" loading="lazy" />`
+      : `<div class="ph-badge">${meta.icon}</div>`;
+    const priceLabel = item.priceFrom ? `Desde ${formatPrice(item.price)}` : formatPrice(item.price);
     return `
-      <div class="menu-card">
-        <div class="menu-card-img">
-          <img src="${item.img}" alt="${item.name}" loading="lazy" />
-          <span class="menu-card-cat">${categoryIcon(item.category)} ${item.category}</span>
+      <div class="menu-card" style="animation-delay:${Math.min(i * 45, 400)}ms">
+        <div class="menu-card-img ${item.img ? '' : 'is-placeholder'}">
+          ${photo}
+          <span class="menu-card-cat">${meta.icon} ${meta.label}</span>
         </div>
         <div class="menu-card-body">
           <h3>${item.name}</h3>
           <p class="desc">${item.desc}</p>
           <div class="menu-card-footer">
-            <span class="price">${formatPrice(item.price)}</span>
+            <span class="price">${priceLabel}</span>
             <button class="btn-add ${inCart ? 'in-cart' : ''}" data-id="${item.id}">
               ${inCart ? '&#10003; Agregado' : 'Agregar'}
             </button>
@@ -53,14 +66,6 @@ export function renderMenu(category = activeCategory) {
 
 export function getActiveCategory() {
   return activeCategory;
-}
-
-function categoryIcon(category) {
-  if (category === 'hamburguesas') return '&#127828;';
-  if (category === 'perros') return '&#127798;';
-  if (category === 'acompanamientos') return '&#127839;';
-  if (category === 'licores') return '&#127870;';
-  return '&#127829;';
 }
 
 function onTabsClick(e) {

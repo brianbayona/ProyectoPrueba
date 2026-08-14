@@ -5,6 +5,13 @@ export function initNavigation() {
   toggle.onclick = () => nav.classList.toggle('open');
 
   document.querySelectorAll('.nav a').forEach((a) => {
-    a.addEventListener('click', () => nav.classList.remove('open'));
+    a.addEventListener('click', () => {
+      nav.classList.remove('open');
+      const category = a.dataset.navCategory;
+      if (category) {
+        const tab = document.querySelector(`.tab[data-category="${category}"]`);
+        if (tab) tab.click();
+      }
+    });
   });
 }

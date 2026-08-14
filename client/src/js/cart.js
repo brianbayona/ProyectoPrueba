@@ -52,6 +52,12 @@ export function removeItem(id) {
   notify({ action: 'remove', item });
 }
 
+export function clearCart() {
+  if (cart.length === 0) return;
+  cart.splice(0, cart.length);
+  notify({ action: 'clear' });
+}
+
 export function subscribe(listener) {
   listeners.add(listener);
   return () => listeners.delete(listener);

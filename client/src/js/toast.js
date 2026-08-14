@@ -41,4 +41,6 @@ export function showToast(message, type = 'success', duration = 2600) {
     clearTimeout(timer);
     dismiss(toast);
   });
+
+  return toast;
 }

@@ -1,212 +1,296 @@
-# BurguerHouse — Landing Page
+# Donde Rey — Comidas Rápidas 🍔🌭🍟
 
-Página web de presentación para un emprendimiento de comidas rápidas.  
-Desarrollada con HTML, CSS y JavaScript vanilla. Sin frameworks ni librerías externas.
+Sitio web de pedidos de **Comidas Rápidas Donde Rey** (Floridablanca, Santander). Los clientes ven el menú real, arman su pedido en el carrito y lo envían por **WhatsApp** en un clic.
+
+Frontend con **Vite (vanilla JS)** + backend **Express** con API de menú y configuración.
 
 ---
 
-## Stack
+## Índice
 
-| Tecnología | Uso |
+1. [Requisitos](#requisitos)
+2. [Puesta en marcha](#puesta-en-marcha)
+3. [Acceso desde celular (red local)](#acceso-desde-celular-red-local)
+4. [Estructura del proyecto](#estructura-del-proyecto)
+5. [Menú real (32 productos)](#menú-real-32-productos)
+6. [Cómo editar el menú](#cómo-editar-el-menú)
+7. [Cómo cambiar el número de WhatsApp](#cómo-cambiar-el-número-de-whatsapp)
+8. [Imágenes de los productos](#imágenes-de-los-productos)
+9. [API](#api)
+10. [Funcionalidades](#funcionalidades)
+11. [Identidad visual](#identidad-visual)
+12. [Solución de problemas](#solución-de-problemas)
+13. [Pendientes](#pendientes)
+
+---
+
+## Requisitos
+
+- **Node.js** 18 o superior (incluye `npm`)
+- Un navegador moderno (Chrome, Edge, Firefox, Safari)
+
+---
+
+## Puesta en marcha
+
+### 1) Instalar dependencias
+
+```bash
+npm install
+```
+
+### 2) Desarrollo (recomendado para editar)
+
+Levanta el servidor API (puerto `3000`) y Vite con recarga en caliente (puerto `5173`):
+
+```bash
+npm run dev
+```
+
+Abrir **http://localhost:5173** — el cliente redirige `/api` al servidor automáticamente.
+
+> El servidor usa `node --watch`: al guardar cambios en `server/` se reinicia solo.
+
+### 3) Producción (simular el sitio final)
+
+```bash
+npm run build     # compila el cliente a dist/
+npm start         # Express sirve la página + la API en :3000
+```
+
+Abrir **http://localhost:3000**
+
+### Scripts disponibles
+
+| Script | Qué hace |
 |---|---|
-| HTML5 | Semántica y estructura |
-| CSS3 | Diseño visual y responsive |
-| JavaScript (ES6 + ES Modules) | Lógica del menú, tabs, carrito e interacción |
-| Vite | Bundler y dev server del cliente |
-| Express | API REST y servidor de producción |
-| Google Fonts | Tipografía **Inter** |
+| `npm run dev` | Server (`:3000`) + Vite (`:5173`) a la vez |
+| `npm run dev:server` | Solo API con auto-reinicio |
+| `npm run dev:client` | Solo Vite |
+| `npm run build` | Compila el cliente a `dist/` |
+| `npm start` | Sirve producción (build + API) |
+| `npm run preview` | Vista previa del build con Vite |
 
 ---
 
-## Archivos
+## Acceso desde celular (red local)
+
+Ambos servidores escuchan en `0.0.0.0`, así que la página se abre desde cualquier dispositivo en la misma red Wi-Fi:
+
+1. Averiguá tu IP local: `ipconfig` (Windows) o `ifconfig` (macOS/Linux). Ejemplo: `192.168.1.39`
+2. Desde el celular abrí:
+   - Desarrollo: `http://192.168.1.39:5173`
+   - Producción: `http://192.168.1.39:3000`
+3. Si no carga, permití Node en el firewall de Windows (aviso al primer arranque) o agregá una regla de entrada para los puertos `5173`/`3000`.
+
+---
+
+## Estructura del proyecto
 
 ```
 ProyectoPrueba/
-├── package.json          # Scripts y dependencias (raíz)
-├── vite.config.js        # Configuración de Vite (proxy /api → server)
-├── client/               # Frontend (Vite)
-│   ├── index.html        # Página principal
+├── package.json            # Scripts y dependencias
+├── vite.config.js          # Config de Vite (proxy /api → :3000)
+├── README.md               # Este manual
+├── client/                 # Frontend (Vite)
+│   ├── index.html          # Página principal (toda la estructura)
+│   ├── public/
+│   │   └── products/       # Fotos de productos y logo de WhatsApp
 │   └── src/
-│       ├── style.css     # Hoja de estilos
-│       ├── main.js       # Punto de entrada, inicializa todo
+│       ├── assets/logo.jpg # Logotipo del negocio
+│       ├── main.js         # Punto de entrada: carga menú, inicializa todo
+│       ├── style.css       # Hoja de estilos (identidad Donde Rey)
 │       └── js/
-│           ├── data.js          # Fetch del menú desde /api/menu
-│           ├── utils.js         # Utilidades (formatPrice)
-│           ├── cart.js          # Estado del carrito (add, qty, total, subscribe)
-│           ├── menu.js          # Render del menú + filtros por tabs
-│           ├── cart-ui.js       # UI del carrito (modal, checkout, WhatsApp)
-│           ├── navigation.js    # Menú hamburguesa mobile
-│           └── animations.js    # Animaciones de scroll (IntersectionObserver)
-├── server/               # Backend (Express)
-│   ├── index.js          # API + sirve el build de producción
-│   └── data/
-│       └── menu.js       # Datos del menú (fuente de verdad)
-└── README.md             # Documentación
+│           ├── data.js         # Fetch del menú desde /api/menu
+│           ├── utils.js        # Utilidades (formatPrice)
+│           ├── cart.js         # Estado del carrito (agregar, cantidades, total)
+│           ├── cart-ui.js      # Modal del carrito + checkout por WhatsApp
+│           ├── menu.js         # Render de tarjetas + pestañas + placeholders
+│           ├── navigation.js   # Menú móvil + enlace de Licorería
+│           ├── animations.js   # Animaciones de entrada (IntersectionObserver)
+│           └── toast.js        # Notificaciones (toasts) de la marca
+├── server/                 # Backend (Express)
+│   ├── index.js            # API + sirve dist/ en producción
+│   └── data/menu.js        # CATÁLOGO REAL (fuente de verdad del menú)
+└── dist/                   # Build de producción (generado, no editar)
 ```
 
 ---
 
-## Estructura del HTML
+## Menú real (32 productos)
 
-### Header (`<header class="header">`)
-- Logo con marca **Burguer<span>House</span>** a la izquierda.
-- Navegación con 3 enlaces internos: `Menú`, `Nosotros`, `Contacto`.
-- Botón hamburguesa (`#menuToggle`) visible solo en mobile.
-- Sticky en la parte superior con sombra.
+El catálogo está transcrito del menú físico de Donde Rey en `server/data/menu.js`, organizado en 4 categorías + Licorería:
 
-### Hero (`<section class="hero">`)
-- Imagen de fondo con degradado oscuro superpuesto.
-- Título principal: *"El sabor que enamora"* con acento amarillo.
-- Subtítulo descriptivo.
-- Botón CTA que redirige a `#menu`.
-
-### Menú (`<section id="menu">`)
-- Título + subtítulo.
-- **Filtros por categoría** (tabs):
-  - `Todo` (activo por defecto)
-  - `Hamburguesas`
-  - `Perros`
-  - `Más`
-- **Grid de productos** (`#menuGrid`) renderizado dinámicamente con JS.
-- Cada card contiene:
-  - Imagen (lazy loading)
-  - Nombre del producto
-  - Descripción breve
-  - Precio en rojo
-  - Botón *"Agregar"* con feedback visual
-
-### Nosotros (`<section id="about">`)
-- Grid de 2 columnas:
-  - Izquierda: imagen decorativa de cocina.
-  - Derecha: texto institucional (historia y valores).
-  - Botón *"Ordená ahora"*.
-
-### Contacto (`<section id="contact">`)
-- Fondo oscuro, texto centrado.
-- 4 canales de contacto:
-  - Teléfono
-  - WhatsApp
-  - Email
-  - Ubicación
-- Botón *"Pedir por WhatsApp"* con enlace directo a `wa.me`.
-
-### Footer (`<footer class="footer">`)
-- Copyright con año y marca.
-
----
-
-## Datos del menú (API del servidor)
-
-8 productos organizados en 3 categorías dentro de `server/data/menu.js`:
-
-| # | Nombre | Categoría | Precio |
-|---|---|---|---|
-| 1 | Clásica | hamburguesas | $15.900 |
-| 2 | Doble Queso | hamburguesas | $21.500 |
-| 3 | Criolla | hamburguesas | $19.900 |
-| 4 | Perro Sencillo | perros | $9.900 |
-| 5 | Perro Especial | perros | $13.500 |
-| 6 | Perro Ranchero | perros | $15.900 |
-| 7 | Salchipapas | acompanamientos | $11.900 |
-| 8 | Patacón Burger | acompanamientos | $16.500 |
-
-- Existe una 4.ª categoría **Licores** (próximamente) que se muestra con banner de próxima apertura hasta tener el catálogo real.
-- Las imágenes locales viven en `client/public/products/` y se sirven como `/products/<archivo>.jpg` (funcionan en dev y en producción; los productos sin foto local aún usan stock/Unsplash hasta recibir las fotos definitivas).
-- La licorería y el servicio de domicilios se comunican mediante el strip de domicilios y el banner de licores.
-
----
-
-## Funcionalidades JS
-
-| Función / Evento | Descripción |
+### 🌭 Perros (8)
+| Producto | Precio |
 |---|---|
-| `renderMenu(category)` | Toma una categoría, filtra el array `menu` y renderiza las cards en el grid. |
-| Click en tabs | Remueve clase `active` de todos los tabs, agrega `active` al clickeado, ejecuta `renderMenu` con su `data-category`. |
-| Click en ".btn-add" | Busca el producto por `data-id`, cambia el texto del botón a *"✓ Listo"* con fondo verde por 1.2 segundos y luego lo restaura. |
-| Click en "#menuToggle" | Alterna la clase `open` en la navigación para mostrar/ocultar el menú en mobile. |
+| Perro Tradicional | $15.000 |
+| Perro Especial Rey | $27.000 |
+| Perro Súper Rey | $29.000 |
+| Perro Extra Rey | $34.000 |
+| Perro Americano | $22.000 |
+| Perro Americano Especial | $28.000 |
+| Choriperro | $23.000 |
+| Choriperro Especial | $28.000 |
 
----
-
-## Estilos CSS destacados
-
-- **Reset global** con `box-sizing: border-box`.
-- **Paleta extraída del logotipo** (variables en `:root`, analizada por código desde `client/src/assets/logo.jpg`):
-  - Fucsia `#E9248D` — identidad principal: botones, precios, cinta, acentos
-  - Rosa profundo `#D72B8F` / `#B81E6F` — gradientes y hover
-  - Gris carbón `#1E1E1E` / `#222222` / `#3A3A3A` — estructura: header, hero, contacto, footer
-  - Dorado `#FECA28` — acentos: teléfono, chips de categoría, outlines
-  - Crema `#F7F3E9` / `#F3EEE0` — fondos claros (reemplaza el blanco genérico)
-  - Blanco del logo `#FDFDFD` — tarjetas y superficies
-  - Taupe cálido `#6E645A` — texto secundario
-- **Elementos destacados**: logotipo de la empresa (`client/src/assets/logo.jpg`, en el header y el hero), cinta rosa del hero, número de teléfono en header/footer y logos de pago Mastercard + Visa (SVG inline).
-- **Layouts**:
-  - Header: `flex` con `space-between`.
-  - Hero: `flex` centrado + `min-height: 70vh`.
-  - Menú grid: `grid` con `auto-fill, minmax(280px, 1fr)`.
-  - About: `grid 2 columnas` (se colapsa a 1 en mobile).
-  - Contacto: `flex` centrado con wrap.
-- **Cards** con `border-radius: 16px`, sombra suave y hover con elevación (`translateY(-6px)`).
-- **Responsive**: media query a `768px`:
-  - La navegación se oculta y se activa el menú hamburguesa.
-  - Hero reduce tamaño de título.
-  - About y contacto pasan a 1 columna.
-
----
-
-## API del servidor
-
-| Endpoint | Descripción |
+### 🍔 Hamburguesas (7)
+| Producto | Precio |
 |---|---|
-| `GET /api/menu` | Devuelve los productos del menú (JSON) |
-| `GET /api/config` | Configuración del negocio (WhatsApp, teléfono, email) |
+| Hamburguesa Tradicional | $19.000 |
+| Hamburguesa Especial Rey | $27.000 |
+| Hamburguesa Súper Rey | $29.000 |
+| Hamburguesa Extra Rey | $34.000 |
+| Hamburguesa Doble Carne | $25.000 |
+| Hamburguesa Sólo Pollo | $23.000 |
+| Hamburguesa Ranchera | $32.000 |
 
-En desarrollo, Vite (puerto `5173`) hace proxy de `/api` hacia Express (puerto `3000`).
-En producción, Express sirve el build estático (`client/` compilado a `dist/`) y la API.
+### 🍟 Para Picar (9)
+| Producto | Precio |
+|---|---|
+| Choripapa | $20.000 |
+| Salchipapa | $20.000 |
+| Choripapa Americana | $30.000 |
+| Salchipapa Americana | $26.000 |
+| Papas Locas | $37.000 |
+| Salchichoripapa | $26.000 |
+| Salchichoripapa Especial | $32.000 |
+| Choripapa Costeño | $29.000 |
+| Porción de Papa | $14.000 |
 
-## Cómo visualizar
+### 🥩 Carne y Aves (8)
+| Producto | Precio |
+|---|---|
+| Chatas | $34.000 |
+| Mazorcadas | $36.000 |
+| Costillas de Cerdo en BBQ | $32.000 |
+| Filete de Pechuga | $26.000 |
+| 2 Perniles Fritos | $26.000 |
+| Alitas Fritas | $15.000 |
+| Alitas BBQ | $15.000 |
+| Picadas de Carne | **Desde** $95.000 |
 
-### Desarrollo (client + server a la vez)
+### 🍾 Licorería
+Sección "próximamente" (banner de marca). No tiene productos hasta que exista la carta real.
 
-1. `npm install`
-2. `npm run dev` — levanta Express (`:3000`) y Vite (`:5173`) con hot reload
-3. Abrir `http://localhost:5173`
-
-### Producción
-
-1. `npm install`
-2. `npm run build` — compila el cliente a `dist/`
-3. `npm start` — Express sirve la app y la API en `http://localhost:3000`
-
-### Acceso desde cualquier dispositivo (celular, tablet, portátil)
-
-Ambos servidores escuchan en `0.0.0.0`, por lo que son accesibles desde tu red local:
-
-1. Averiguá tu IP local: `ipconfig` (Windows) o `ifconfig` (macOS/Linux).
-   Ejemplo: `192.168.1.39`
-2. Desde cualquier dispositivo conectado a la **misma red Wi-Fi** abrí:
-   - Desarrollo: `http://<TU-IP>:5173`
-   - Producción: `http://<TU-IP>:3000`
-3. El proxy de Vite redirige `/api` a Express automáticamente, así que el menú y el checkout funcionan igual desde la IP.
-4. Si no carga, permití Node en el firewall de Windows (aparece un aviso al primer arranque) o agregá una regla de entrada para los puertos `5173`/`3000`.
-
-El diseño es 100% responsive: se adapta a celular, tablet, portátil y pantallas grandes, con tipografía fluida (`clamp()`) y breakpoints en `1024px`, `900px`, `768px` y `480px`.
-
----
-
-## Contacto (ejemplo)
-
-> **Teléfono:** +57 300 123 4567  
-> **WhatsApp:** +57 300 123 4567  
-> **Email:** pedidos@burguerhouse.co  
-> **Ubicación:** Cra 15 # 48-32, Bogotá
+> **Nota de UX:** "Picadas de Carne" muestra **"Desde $95.000"** (no un precio fijo), gracias al flag `priceFrom: true` (ver más abajo).
 
 ---
 
-## Próximos pasos sugeridos
+## Cómo editar el menú
 
-- [ ] Carrito de compras funcional con localStorage
-- [ ] Formulario de pedido con validación
-- [ ] Integración con WhatsApp API real
-- [ ] Galería de productos reales (fotos propias)
-- [ ] Mapa embebido de Google Maps
-- [ ] SEO y etiquetas Open Graph
+Todo el catálogo vive en **`server/data/menu.js`**. Cada producto es un objeto:
+
+```js
+{
+  id: 16,                              // número único
+  name: 'Choripapa',                   // nombre exacto del menú físico
+  category: 'para-picar',              // perros | hamburguesas | para-picar | carne-aves
+  desc: 'Chorizo, papas a la francesa, salsas y queso salado.',   // descripción real
+  price: 20000,                        // precio en pesos (sin puntos ni $)
+  priceFrom: false,                    // opcional: true muestra "Desde $X"
+  img: '/products/mi-foto.jpg'         // opcional: ruta de la foto (ver imágenes)
+}
+```
+
+Reglas:
+
+- Los `id` deben ser **únicos**.
+- La `category` define en qué pestaña aparece.
+- Los **nombres, descripciones y precios deben ser los reales** (no inventar).
+- Si el precio es "desde", usá `priceFrom: true`.
+- Si no existe foto, **no pongas la propiedad `img`**: la tarjeta muestra el placeholder de marca automáticamente.
+
+---
+
+## Cómo cambiar el número de WhatsApp
+
+El número oficial es **+57 301 387 2320** (`573013872320`). Si cambia, hay que actualizarlo en **2 lugares**:
+
+1. **Servidor** — `server/index.js`, dentro de `/api/config`:
+   ```js
+   whatsapp: '573013872320',
+   ```
+2. **Cliente** — `client/src/js/cart-ui.js`, valor por defecto (se usa si la API no responde):
+   ```js
+   const DEFAULT_WHATSAPP = '573013872320';
+   ```
+
+El checkout del carrito **consulta el número al servidor en el momento del clic** (sin caché), por lo que cambiar `server/index.js` alcanza para todo el sitio. Los enlaces directos (`wa.me/573013872320`) están en `client/index.html` (hero, strip de domicilios, contacto, botón flotante).
+
+> ⚠️ Si al probar abre un número viejo, recargá con **Ctrl+F5**: la pestaña abierta antes del cambio guarda el código anterior.
+
+---
+
+## Imágenes de los productos
+
+- Las fotos van en **`client/public/products/`** y se sirven como `/products/<archivo>` (funcionan en dev y producción; Vite las copia a `dist/`).
+- Para asignar una foto a un producto, poné en `server/data/menu.js`:
+  ```js
+  img: '/products/489701640_1212349630890563_7028203771118626995_n.jpg'
+  ```
+- **Sin `img` = placeholder de marca**: fondo carbón con glow rosa, borde dorado punteado y el emoji de la categoría (se ve intencional, no roto).
+- Archivos especiales:
+  - `whatsapp.png` — logo del botón flotante y la tarjeta de contacto (no borrar).
+  - La foto oscura `489191005_...jpg` alimenta el **banner de Licorería** (referenciada en `client/src/js/menu.js`).
+- Regla: no asignar una foto a un producto si no corresponde; mejor placeholder.
+
+---
+
+## API
+
+| Endpoint | Respuesta |
+|---|---|
+| `GET /api/menu` | Array con los 32 productos del catálogo |
+| `GET /api/config` | Datos del negocio: WhatsApp, teléfono, dirección, horarios |
+
+En desarrollo Vite (`:5173`) proxya `/api` hacia Express (`:3000`). En producción Express sirve `dist/` y la API en el mismo puerto.
+
+---
+
+## Funcionalidades
+
+- **Pestañas de categorías**: Todo, Perros, Hamburguesas, Para Picar, Carne y Aves, Licorería. Con feedback visual (activa en rosa, tarjetas entran escalonadas).
+- **Tarjetas de producto**: nombre → descripción → precio (rosa, destacado) → botón *Agregar* que cambia a "✓ Agregado" en verde.
+- **Carrito (modal)**: cantidades +/−, subtotales por línea, **total bien visible**, vaciar, seguir comprando, eliminar, y botón **"Pedir por WhatsApp"** que abre WhatsApp con el pedido armado y el mensaje de domicilio.
+- **Notificaciones (toasts)** de marca: al agregar (clic = abre el carrito), eliminar, vaciar y al enviar el pedido.
+- **Contador del carrito** en el header con animación al cambiar.
+- **Botón flotante de WhatsApp** con el logo del negocio.
+- **Strip de domicilios** bajo el hero y CTA "Pedir a domicilio" en el hero.
+- **Navegación móvil** con menú hamburguesa; enlace "Licorería" que abre la pestaña directo.
+- **Accesibilidad**: foco visible, `prefers-reduced-motion`, teclas (Esc cierra el carrito), bloqueo de scroll con el modal abierto.
+- **Estados**: skeletons al cargar el menú y pantalla de error con "Reintentar" si la API no responde.
+
+---
+
+## Identidad visual
+
+Paleta extraída del logotipo (variables en `:root` de `client/src/style.css`):
+
+- **Fucsia `#E9248D`** — acción principal: botones, precios, acentos
+- **Negro/carbón `#1E1E1E`–`#3A3A3A`** — estructura: header, hero, contacto, footer
+- **Dorado `#FECA28`** — acentos: teléfonos, chips de categoría, outlines
+- **Crema `#F7F3E9`/`#F3EEE0`** — fondos claros y superficies
+- Blanco `#FDFDFD` para tarjetas · Taupe `#6E645A` para texto secundario
+
+Tipografías: **Inter** (textos) y **Pacifico** (acentos de marca). Diseño 100% responsive (breakpoints en `1024px`, `900px`, `768px` y `480px`).
+
+---
+
+## Solución de problemas
+
+| Problema | Solución |
+|---|---|
+| `Error: listen EADDRINUSE` | El puerto está ocupado. Cerrá el proceso anterior (o matá el PID con `taskkill //PID <pid> //F` en Windows) y volvé a `npm run dev`. |
+| "No se pudo cargar el menú" | El servidor no está corriendo o se cayó. Reiniciá `npm run dev`. |
+| WhatsApp abre un número viejo | Recargá con **Ctrl+F5** (la pestaña guardaba el código anterior). |
+| El celular no carga la página | Misma red Wi-Fi, permití Node en el firewall o agregá regla para los puertos `5173`/`3000`. |
+| Fotos que no cargan | Verificá que el archivo exista en `client/public/products/` y que la ruta en `menu.js` empiece con `/products/`. |
+| Build falla | Probablemente un error de sintaxis en `server/data/menu.js` o imports en `client/src/js/`. Revisá la consola. |
+
+---
+
+## Pendientes
+
+- [ ] Asignar las fotos reales a cada producto (hoy usan placeholder de marca; el mapeo se hace en `server/data/menu.js`)
+- [ ] Carta real de licorería (la sección está lista, espera datos)
+- [ ] Verificar redes sociales reales para el footer
