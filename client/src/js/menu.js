@@ -1,6 +1,6 @@
 import { getMenu } from './data.js';
 import { formatPrice } from './utils.js';
-import { getCart, addToCart } from './cart.js';
+import { getCart, addToCart, changeQty, setLocked } from './cart.js';
 
 const grid = document.getElementById('menuGrid');
 const tabsContainer = document.getElementById('tabsContainer');
@@ -26,7 +26,7 @@ export const CATEGORY_META = {
 
 let activeCategory = 'all';
 
-export function renderMenu(category = activeCategory) {
+export function renderMenu(category = activeCategory, animate = false) {
   activeCategory = category;
   const menu = getMenu();
   const items = category === 'all' ? menu : menu.filter((m) => m.category === category);
@@ -43,8 +43,24 @@ export function renderMenu(category = activeCategory) {
       ? `<img src="${item.img}" alt="${item.name}" loading="lazy" />`
       : `<div class="ph-badge">${meta.icon}</div>`;
     const priceLabel = item.priceFrom ? `Desde ${formatPrice(item.price)}` : formatPrice(item.price);
+    const animStyle = animate
+      ? ` style="animation-delay:${Math.min(i * 45, 400)}ms"`
+      : ' style="animation:none"';
+    const action = inCart
+      ? inCart.locked
+        ? `<button class="stepper-locked" data-id="${item.id}" aria-label="Desbloquear cantidad de ${item.name}">
+             &#10003; ${inCart.qty} en tu pedido
+           </button>`
+        : `
+        <div class="stepper" aria-label="Cantidad de ${item.name}">
+          <button class="stepper-btn minus" data-id="${item.id}" aria-label="Quitar uno">-</button>
+          <span class="stepper-qty">${inCart.qty}</span>
+          <button class="stepper-btn plus" data-id="${item.id}" aria-label="Agregar uno">+</button>
+          <button class="stepper-done" data-id="${item.id}" aria-label="Confirmar cantidad">Listo</button>
+        </div>`
+      : `<button class="btn-add" data-id="${item.id}">Agregar</button>`;
     return `
-      <div class="menu-card" style="animation-delay:${Math.min(i * 45, 400)}ms">
+      <div class="menu-card"${animStyle}>
         <div class="menu-card-img ${item.img ? '' : 'is-placeholder'}">
           ${photo}
           <span class="menu-card-cat">${meta.icon} ${meta.label}</span>
@@ -54,9 +70,7 @@ export function renderMenu(category = activeCategory) {
           <p class="desc">${item.desc}</p>
           <div class="menu-card-footer">
             <span class="price">${priceLabel}</span>
-            <button class="btn-add ${inCart ? 'in-cart' : ''}" data-id="${item.id}">
-              ${inCart ? '&#10003; Agregado' : 'Agregar'}
-            </button>
+            ${action}
           </div>
         </div>
       </div>
@@ -74,17 +88,38 @@ function onTabsClick(e) {
 
   tabsContainer.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
   tab.classList.add('active');
-  renderMenu(tab.dataset.category);
+  renderMenu(tab.dataset.category, true);
 }
 
 function onGridClick(e) {
-  const btn = e.target.closest('.btn-add');
-  if (!btn) return;
-  addToCart(Number(btn.dataset.id));
+  const addBtn = e.target.closest('.btn-add');
+  if (addBtn) {
+    addToCart(Number(addBtn.dataset.id));
+    return;
+  }
+  const plus = e.target.closest('.stepper-btn.plus');
+  if (plus) {
+    addToCart(Number(plus.dataset.id));
+    return;
+  }
+  const minus = e.target.closest('.stepper-btn.minus');
+  if (minus) {
+    changeQty(Number(minus.dataset.id), -1);
+    return;
+  }
+  const done = e.target.closest('.stepper-done');
+  if (done) {
+    setLocked(Number(done.dataset.id), true);
+    return;
+  }
+  const locked = e.target.closest('.stepper-locked');
+  if (locked) {
+    setLocked(Number(locked.dataset.id), false);
+  }
 }
 
 export function initMenu() {
   tabsContainer.addEventListener('click', onTabsClick);
   grid.addEventListener('click', onGridClick);
-  renderMenu('all');
+  renderMenu('all', true);
 }

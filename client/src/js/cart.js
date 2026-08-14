@@ -29,6 +29,13 @@ export function addToCart(id) {
   notify({ action: 'add', item });
 }
 
+export function setLocked(id, locked) {
+  const item = cart.find((c) => c.id === id);
+  if (!item) return;
+  item.locked = locked;
+  notify({ action: 'update', item });
+}
+
 export function changeQty(id, delta) {
   const item = cart.find((c) => c.id === id);
   if (!item) return;

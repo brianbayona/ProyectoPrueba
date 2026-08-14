@@ -3,7 +3,7 @@ let container;
 const ICONS = {
   success: '&#10003;',
   error: '&#10005;',
-  info: '&#8505;&#65039;'
+  info: 'i'
 };
 
 function getContainer() {

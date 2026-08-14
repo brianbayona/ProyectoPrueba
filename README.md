@@ -111,7 +111,7 @@ ProyectoPrueba/
 │           ├── cart.js         # Estado del carrito (agregar, cantidades, total)
 │           ├── cart-ui.js      # Modal del carrito + checkout por WhatsApp
 │           ├── menu.js         # Render de tarjetas + pestañas + placeholders
-│           ├── navigation.js   # Menú móvil + enlace de Licorería
+│           ├── navigation.js   # Menú móvil + copiar teléfono (escritorio) + enlace de Licorería
 │           ├── animations.js   # Animaciones de entrada (IntersectionObserver)
 │           └── toast.js        # Notificaciones (toasts) de la marca
 ├── server/                 # Backend (Express, solo desarrollo local)
@@ -260,13 +260,16 @@ El checkout del carrito **consulta el número en el momento del clic** (sin cach
 ## Funcionalidades
 
 - **Pestañas de categorías**: Todo, Perros, Hamburguesas, Para Picar, Carne y Aves, Licorería. Con feedback visual (activa en rosa, tarjetas entran escalonadas).
-- **Tarjetas de producto**: nombre → descripción → precio (rosa, destacado) → botón *Agregar* que cambia a "✓ Agregado" en verde.
+- **Tarjetas de producto**: nombre → descripción → precio (rosa, destacado) → botón *Agregar*. Al agregar, el botón se convierte en un **stepper** (− cantidad + y **Listo**) para seguir sumando productos sin abrir el carrito. **Listo** confirma la cantidad en cualquier momento y la bloquea (evita cancelar por accidente); tocá el badge verde "✓ X en tu pedido" para volver a editar.
 - **Carrito (modal)**: cantidades +/−, subtotales por línea, **total bien visible**, vaciar, seguir comprando, eliminar, y botón **"Pedir por WhatsApp"** que abre WhatsApp con el pedido armado y el mensaje de domicilio.
 - **Notificaciones (toasts)** de marca: al agregar (clic = abre el carrito), eliminar, vaciar y al enviar el pedido.
 - **Contador del carrito** en el header con animación al cambiar.
 - **Botón flotante de WhatsApp** con el logo del negocio.
 - **Strip de domicilios** bajo el hero y CTA "Pedir a domicilio" en el hero.
 - **Navegación móvil** con menú hamburguesa; enlace "Licorería" que abre la pestaña directo.
+- **Teléfonos inteligentes**: en escritorio el clic copia el número con aviso (evita el diálogo nativo feo); en móvil abre el marcador directo.
+- **Sin parpadeo al recargar**: el CSS se carga desde el HTML (`<link>` en el `<head>`), no por JavaScript.
+- **Responsive pulido**: unidades `svh` para el hero (sin saltos en móvil), `safe-area-inset` para iPhone (botón flotante y toasts), targets táctiles de 40px+, tarjetas que no se desbordan en tablets, menú que no re-anima al agregar productos.
 - **Accesibilidad**: foco visible, `prefers-reduced-motion`, teclas (Esc cierra el carrito), bloqueo de scroll con el modal abierto.
 - **Estados**: skeletons al cargar el menú y pantalla de error con "Reintentar" si la API no responde.
 
@@ -327,6 +330,7 @@ Tipografías: **Inter** (textos) y **Pacifico** (acentos de marca). Diseño 100%
 | WhatsApp abre un número viejo | Recargá con **Ctrl+F5** (la pestaña guardaba el código anterior). |
 | El celular no carga la página | Misma red Wi-Fi, permití Node en el firewall o agregá regla para los puertos `5173`/`3000`. |
 | Fotos que no cargan | Verificá que el archivo exista en `client/public/products/` y que la ruta en `menu.js` empiece con `/products/`. |
+| "Ver el menú" del carrito no hace nada | Recargá con **Ctrl+F5** (código viejo cacheado; el botón ya funciona por delegación de eventos). |
 | Build falla | Probablemente un error de sintaxis en `server/data/menu.js` o imports en `client/src/js/`. Revisá la consola. |
 
 ---

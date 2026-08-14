@@ -1,4 +1,6 @@
 export function initAnimations() {
+  if (!('IntersectionObserver' in window)) return;
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -7,7 +9,7 @@ export function initAnimations() {
     });
   }, { threshold: 0.1 });
 
-  document.querySelectorAll('.menu-card, .about-grid, .contact-card, .section-header').forEach((el) => {
+  document.querySelectorAll('.about-grid, .contact-card, .section-header').forEach((el) => {
     el.classList.add('fade-in');
     observer.observe(el);
   });

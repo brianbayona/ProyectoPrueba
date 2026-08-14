@@ -12,9 +12,15 @@ const clearBtn = document.getElementById('cartClear');
 
 const EMPTY_CART_HTML = `
   <div class="cart-empty">
-    <span class="cart-empty-icon">&#128722;</span>
+    <span class="cart-empty-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="9" cy="21" r="1.5"/><circle cx="18" cy="21" r="1.5"/>
+        <path d="M2 3h3l2.6 12.4a1.5 1.5 0 0 0 1.5 1.1h8.9a1.5 1.5 0 0 0 1.5-1.2L21 7H5"/>
+      </svg>
+    </span>
     <p>Tu carrito está vacío</p>
-    <p class="cart-empty-sub">Agregá productos del menú para empezar</p>
+    <p class="cart-empty-sub">Elegí un producto del menú y agregalo a tu pedido</p>
+    <button class="btn btn-small" id="cartGoMenu">Ver el menú</button>
   </div>
 `;
 
@@ -122,10 +128,12 @@ export async function initCartUI() {
     showToast('Tu carrito fue vaciado', 'info');
   };
   document.getElementById('cartContinue').onclick = closeCart;
-  document.getElementById('cartGoMenu').onclick = () => {
+  bodyEl.addEventListener('click', (e) => {
+    const goMenu = e.target.closest('#cartGoMenu');
+    if (!goMenu) return;
     closeCart();
     document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
-  };
+  });
   overlay.addEventListener('click', onOverlayClick);
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeCart();

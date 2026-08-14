@@ -1,9 +1,8 @@
-import './style.css';
 import { loadMenu } from './js/data.js';
 import { subscribe } from './js/cart.js';
 import { initMenu, renderMenu, getActiveCategory } from './js/menu.js';
 import { initCartUI, updateCartUI, openCart } from './js/cart-ui.js';
-import { initNavigation } from './js/navigation.js';
+import { initNavigation, initPhoneLinks } from './js/navigation.js';
 import { initAnimations } from './js/animations.js';
 import { showToast } from './js/toast.js';
 
@@ -26,7 +25,6 @@ const SKELETON_GRID = SKELETON_CARD.repeat(6);
 
 const ERROR_HTML = `
   <div class="error-message">
-    <span class="error-icon">&#9888;&#65039;</span>
     <strong>No se pudo cargar el menú</strong>
     <span class="error-sub">Asegurate de que el servidor esté corriendo e intentá de nuevo.</span>
     <button class="btn btn-small" onclick="location.reload()">Reintentar</button>
@@ -56,6 +54,7 @@ async function init() {
     initMenu();
     await initCartUI();
     initNavigation();
+    initPhoneLinks();
     initAnimations();
   } catch (err) {
     console.error('No se pudo inicializar la aplicación:', err);
