@@ -23,7 +23,7 @@ let whatsapp = DEFAULT_WHATSAPP;
 
 async function loadConfig() {
   try {
-    const res = await fetch('/api/config', { cache: 'no-store' });
+    const res = await fetch('/data/config.json', { cache: 'no-store' });
     if (!res.ok) return;
     const config = await res.json();
     if (config.whatsapp) whatsapp = config.whatsapp;

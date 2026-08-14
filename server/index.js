@@ -3,6 +3,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { menu } from './data/menu.js';
+import { config } from './data/config.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
@@ -16,14 +17,7 @@ app.get('/api/menu', (_req, res) => {
 });
 
 app.get('/api/config', (_req, res) => {
-  res.json({
-    storeName: 'Comidas Rápidas Donde Rey',
-    whatsapp: '573013872320',
-    phone: '76588040',
-    email: 'pedidos@donderey.co',
-    address: 'Cra. 45 #148a-2, Floridablanca, Santander',
-    schedule: 'Lun - Dom: 5:00 PM - 2:00 AM'
-  });
+  res.json(config);
 });
 
 const distPath = path.resolve(__dirname, '../dist');

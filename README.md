@@ -19,8 +19,9 @@ Frontend con **Vite (vanilla JS)** + backend **Express** con API de menú y conf
 9. [API](#api)
 10. [Funcionalidades](#funcionalidades)
 11. [Identidad visual](#identidad-visual)
-12. [Solución de problemas](#solución-de-problemas)
-13. [Pendientes](#pendientes)
+12. [Publicar en internet (Cloudflare Pages)](#publicar-en-internet-cloudflare-pages)
+13. [Solución de problemas](#solución-de-problemas)
+14. [Pendientes](#pendientes)
 
 ---
 
@@ -91,17 +92,21 @@ Ambos servidores escuchan en `0.0.0.0`, así que la página se abre desde cualqu
 ProyectoPrueba/
 ├── package.json            # Scripts y dependencias
 ├── vite.config.js          # Config de Vite (proxy /api → :3000)
+├── scripts/
+│   └── export-data.mjs     # Genera menu.json + config.json (datos estáticos)
 ├── README.md               # Este manual
 ├── client/                 # Frontend (Vite)
 │   ├── index.html          # Página principal (toda la estructura)
 │   ├── public/
+│   │   ├── data/           # Datos estáticos: menu.json + config.json (generados)
+│   │   ├── _redirects      # Fallback SPA para Cloudflare Pages
 │   │   └── products/       # Fotos de productos y logo de WhatsApp
 │   └── src/
 │       ├── assets/logo.jpg # Logotipo del negocio
 │       ├── main.js         # Punto de entrada: carga menú, inicializa todo
 │       ├── style.css       # Hoja de estilos (identidad Donde Rey)
 │       └── js/
-│           ├── data.js         # Fetch del menú desde /api/menu
+│           ├── data.js         # Fetch del menú desde /data/menu.json
 │           ├── utils.js        # Utilidades (formatPrice)
 │           ├── cart.js         # Estado del carrito (agregar, cantidades, total)
 │           ├── cart-ui.js      # Modal del carrito + checkout por WhatsApp
@@ -109,9 +114,11 @@ ProyectoPrueba/
 │           ├── navigation.js   # Menú móvil + enlace de Licorería
 │           ├── animations.js   # Animaciones de entrada (IntersectionObserver)
 │           └── toast.js        # Notificaciones (toasts) de la marca
-├── server/                 # Backend (Express)
-│   ├── index.js            # API + sirve dist/ en producción
-│   └── data/menu.js        # CATÁLOGO REAL (fuente de verdad del menú)
+├── server/                 # Backend (Express, solo desarrollo local)
+│   ├── index.js            # API (/api/menu, /api/config) + sirve dist/
+│   └── data/
+│       ├── menu.js         # CATÁLOGO REAL (fuente de verdad del menú)
+│       └── config.js       # Config del negocio (WhatsApp, teléfono, dirección)
 └── dist/                   # Build de producción (generado, no editar)
 ```
 
@@ -204,18 +211,19 @@ Reglas:
 
 ## Cómo cambiar el número de WhatsApp
 
-El número oficial es **+57 301 387 2320** (`573013872320`). Si cambia, hay que actualizarlo en **2 lugares**:
+El número oficial es **+57 301 387 2320** (`573013872320`). La **única fuente de verdad** es **`server/data/config.js`**:
 
-1. **Servidor** — `server/index.js`, dentro de `/api/config`:
-   ```js
-   whatsapp: '573013872320',
-   ```
-2. **Cliente** — `client/src/js/cart-ui.js`, valor por defecto (se usa si la API no responde):
-   ```js
-   const DEFAULT_WHATSAPP = '573013872320';
-   ```
+```js
+whatsapp: '573013872320',
+```
 
-El checkout del carrito **consulta el número al servidor en el momento del clic** (sin caché), por lo que cambiar `server/index.js` alcanza para todo el sitio. Los enlaces directos (`wa.me/573013872320`) están en `client/index.html` (hero, strip de domicilios, contacto, botón flotante).
+Al cambiar ese archivo hay que regenerar los datos estáticos (o simplemente correr `npm run build`, que lo hace solo):
+
+```bash
+npm run build   # regenera client/public/data/config.json y empaqueta
+```
+
+El checkout del carrito **consulta el número en el momento del clic** (sin caché). Los enlaces directos (`wa.me/573013872320`) están en `client/index.html` (hero, strip de domicilios, contacto, botón flotante).
 
 > ⚠️ Si al probar abre un número viejo, recargá con **Ctrl+F5**: la pestaña abierta antes del cambio guarda el código anterior.
 
@@ -240,10 +248,12 @@ El checkout del carrito **consulta el número al servidor en el momento del clic
 
 | Endpoint | Respuesta |
 |---|---|
-| `GET /api/menu` | Array con los 32 productos del catálogo |
-| `GET /api/config` | Datos del negocio: WhatsApp, teléfono, dirección, horarios |
+| `GET /data/menu.json` | Catálogo completo (32 productos) — lo que usa la página |
+| `GET /data/config.json` | Datos del negocio (WhatsApp, teléfono, dirección, horarios) |
+| `GET /api/menu` | Igual que menu.json, servido por Express (desarrollo/compat) |
+| `GET /api/config` | Igual que config.json, servido por Express (desarrollo/compat) |
 
-En desarrollo Vite (`:5173`) proxya `/api` hacia Express (`:3000`). En producción Express sirve `dist/` y la API en el mismo puerto.
+**La página lee los archivos estáticos `menu.json` y `config.json`** (generados por `scripts/export-data.mjs` desde `server/data/`). El servidor Express solo se necesita para desarrollo local y para servir `dist/` en producción local — la página funciona como sitio estático puro, que es lo que permite publicarla gratis en Cloudflare Pages.
 
 ---
 
@@ -276,6 +286,38 @@ Tipografías: **Inter** (textos) y **Pacifico** (acentos de marca). Diseño 100%
 
 ---
 
+## Publicar en internet (Cloudflare Pages)
+
+> **Estado: preparado.** El proyecto ya está adaptado para publicarse gratis en Cloudflare Pages, pero **aún no se ha conectado** (la página está en desarrollo). Cuando esté lista, seguí estos pasos.
+
+### Qué significa esto
+
+- La página vive en la nube de Cloudflare con una URL pública (ej: `donderey.pages.dev`), accesible desde **cualquier celular y cualquier red**, **sin que tu PC esté prendida**.
+- El plan gratis es **permanente**: sin tarjeta, ancho de banda ilimitado y **sin restricción de uso comercial**.
+- Cada vez que hagas **push a GitHub**, el sitio se actualiza solo.
+
+### Pasos para publicar (cuando la página esté lista)
+
+1. Creá una cuenta gratuita en **dash.cloudflare.com**.
+2. Entrá a **Workers & Pages → Create → Pages → Connect to Git**.
+3. Conectá tu cuenta de GitHub y elegí el repositorio `ProyectoPrueba`.
+4. Configuración del build:
+   - Framework preset: **Vite**
+   - Build command: `npm run build`
+   - Build output directory: `dist`
+5. Click **Save and Deploy**. En ~2 minutos tenés la URL pública (`https://<nombre>.pages.dev`).
+6. (Opcional) Desde el panel: **Custom domains** → agregá un dominio propio si comprás uno.
+
+### Flujo de trabajo después de publicar
+
+1. Editás el catálogo o la configuración en `server/data/`.
+2. Corrés `npm run build` (regenera los JSON) o directamente pusheás: el `_redirects` y los JSON viajan en el repo.
+3. `git push` → Cloudflare compila solo (`npm run build`) y actualiza el sitio.
+
+> Los archivos `client/public/data/*.json` y `client/public/_redirects` están commiteados, así que el deploy funciona aunque el build falle por otra razón.
+
+---
+
 ## Solución de problemas
 
 | Problema | Solución |
@@ -294,3 +336,4 @@ Tipografías: **Inter** (textos) y **Pacifico** (acentos de marca). Diseño 100%
 - [ ] Asignar las fotos reales a cada producto (hoy usan placeholder de marca; el mapeo se hace en `server/data/menu.js`)
 - [ ] Carta real de licorería (la sección está lista, espera datos)
 - [ ] Verificar redes sociales reales para el footer
+- [ ] Cuando la página esté lista: publicar en Cloudflare Pages (pasos en la sección correspondiente)
